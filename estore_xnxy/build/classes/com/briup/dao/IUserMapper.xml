@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    
+<mapper namespace="com.briup.dao.IUserDao">
+	<!-- 注册用户  向contactinfo表和userinfo表中插入数据-->
+	<insert id="saveContact" parameterType="Contactinfo">
+		insert into contactinfo(contactid,userid,street1,street2,city,province,country,zip,email,homephone,cellphone,officephone)
+		values(e_contact_seq.nextval,#{user.userid},nvl(#{street1},' '),nvl(#{street2},' '),nvl(#{city},' '),nvl(#{province},' '),nvl(#{country},' '),nvl(#{zip},' '),nvl(#{email},' '),nvl(#{homephone},' '),nvl(#{cellphone},' '),nvl(#{officephone},' '))
+	</insert> 
+	<insert id="saveUser" parameterType="User">
+		insert into userinfo(userid,password)
+		values(#{userid},#{password})
+	</insert>
+	
+	<!-- 用户登录  通过userid来查找对应的用户-->
+	<select id="findUserByUserid" resultType="User">
+		select *
+		from userinfo
+		where userid=#{userid}
+	</select>
+	
+	<!-- 查找所有的用户 -->
+	<select id="findAllUser" resultType="User">
+		select *
+		from userinfo
+	</select>
+	
+	<!-- 通过userid来查找对应的用户详细信息 -->
+	<select id="findContact" resultType="Contactinfo">
+		select *
+		from contactinfo
+		where userid=#{userid}
+	</select>
+	
+	<!-- 更新用户的信息 -->
+	<update id="updateUser">
+		update userinfo
+		set password = #{password}
+		where userid = #{userid}
+	</update>
+	<update id="updateContact">
+		update contactinfo
+		set street1 = nvl(#{street1},' '),
+			street2 = nvl(#{street2},' '),
+			city = nvl(#{city},' '),
+			province = nvl(#{province},' '),
+			country =  nvl(#{country},' '),
+			zip = nvl(#{zip},' '),
+			email = nvl(#{email},' '),
+			homephone = nvl(#{homephone},' '),
+			cellphone = nvl(#{cellphone},' '),
+			officephone = nvl(#{officephone},' ')
+		where userid = #{user.userid}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+

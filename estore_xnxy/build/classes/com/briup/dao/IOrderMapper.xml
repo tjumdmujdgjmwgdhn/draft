@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.dao.IOrderDao">
+	<select id="findAllPayway" resultType="Payway">
+		select *
+		from payway
+	</select>
+	
+	<select id="findPaywayByPaywayid" resultType="Payway">
+		select *
+		from payway
+		where paywayid = #{paywayid}
+	</select>
+	
+	<insert id="saveOrder" parameterType="Order">
+		insert into orders(orderid,name,finished,cost,cardno,userid,statusid,paywayid)
+		values(e_order_seq.nextval,nvl(#{name},' '),nvl(#{finished},0),#{cost},nvl(#{cardno},' '),#{user.userid},#{orderstatus.statusid},#{payway.paywayid}
+		)
+	</insert>
+	
+	<select id="findOrderByUserid" resultType="Order">
+		select *
+		from orders
+		where userid = #{userid}
+	</select>
+	
+	<select id="finPaywayIdByOrderId" resultType="Integer">
+		select paywayid
+		from orders
+		where orderid = #{orderid}
+	</select>
+	
+	<delete id="deleteOrder">
+		delete orders
+		where orderid = #{orderid}
+	</delete>
+	
+
+</mapper>
